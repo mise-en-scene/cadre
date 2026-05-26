@@ -1,0 +1,94 @@
+{
+	"include": ["src"],
+	"exclude": ["node_modules", "dist"],
+	"compilerOptions": {
+		// ── Output target ────────────────────────────────────────────────────────
+		// Emit modern JS with no downleveling. Vite handles browser targets via esbuild.
+		"target": "ESNext",
+		// Keep import/export as native ES modules in the output.
+		"module": "ESNext",
+		// Match how Vite resolves imports: supports package.json `exports`, extensionless
+		// paths, etc. Use this instead of "node" for Vite-based projects.
+		"moduleResolution": "Bundler",
+		// Built-in type definitions to include. DOM + DOM.Iterable give us HTMLElement,
+		// ResizeObserver, NodeList iteration, etc.
+		"lib": ["ESNext", "DOM", "DOM.Iterable"],
+
+		// ── Decorator compatibility ───────────────────────────────────────────────
+		// Must be false when using experimentalDecorators. With true, class field
+		// initializers run after the decorator and overwrite Lit's reactive getter/setter.
+		"useDefineForClassFields": false,
+		// Enable legacy stage-2 decorator syntax used by Lit (@customElement, @property…).
+		"experimentalDecorators": true,
+
+		// ── Strict type checking ──────────────────────────────────────────────────
+		// Umbrella flag: enables strictNullChecks, strictFunctionTypes, noImplicitAny, etc.
+		"strict": true,
+		// Error on declared-but-never-used local variables.
+		"noUnusedLocals": true,
+		// Error on declared-but-never-used function parameters.
+		"noUnusedParameters": true,
+		// Error if a function has a code path that returns without an explicit value.
+		"noImplicitReturns": true,
+		// Error on switch-case fallthrough (missing break/return).
+		"noFallthroughCasesInSwitch": true,
+		// Distinguish between absent optional property and property set to undefined.
+		// Without this, `{ title: undefined }` satisfies `{ title?: string }`, which is wrong.
+		"exactOptionalPropertyTypes": true,
+		// Array/index access returns T|undefined instead of T. `arr[0]` is no longer
+		// assumed to exist. Prevents a whole class of runtime errors in a published library.
+		"noUncheckedIndexedAccess": true,
+		// Enforce the `override` keyword when overriding a base class method.
+		// Makes it a compile error to accidentally shadow instead of override.
+		"noImplicitOverride": true,
+		// Prevent import path casing bugs across macOS (case-insensitive) and Linux (case-sensitive).
+		"forceConsistentCasingInFileNames": true,
+		// Require `import type` for type-only imports. At emit, those imports are fully
+		// erased. Required by verbatimModuleSyntax.
+		"verbatimModuleSyntax": true,
+		// Each file must be independently compilable. Required by Vite (esbuild transpiles
+		// files one at a time). Bans const enum and other cross-file patterns.
+		"isolatedModules": true,
+		// Error if a module is imported solely for its side effects but the import
+		// could be misread as a type import. Guards against accidental tree-shaking.
+		"noUncheckedSideEffectImports": true,
+
+		// ── Output & declarations ─────────────────────────────────────────────────
+		// Generate .d.ts type declaration files for library consumers.
+		"declaration": true,
+		// Generate .d.ts.map files so "go to definition" jumps to .ts source, not .d.ts.
+		"declarationMap": true,
+		// Generate .js.map source maps for debuggers.
+		"sourceMap": true,
+		// Embed the original .ts source text inside the source maps. Essential for a
+		// published library — consumers get accurate source even without the .ts files.
+		"inlineSources": true,
+		// Compiled output destination.
+		"outDir": "dist",
+		// Root of source files. Controls the output directory structure.
+		"rootDir": "src",
+		// Skip type-checking .d.ts files in node_modules. Speeds up compilation and
+		// avoids spurious errors from badly-typed dependencies.
+		"skipLibCheck": true,
+
+		// ── Environment & paths ───────────────────────────────────────────────────
+		// Path alias: `@/foo` resolves to `src/foo`. Vite needs a matching resolve.alias.
+		"paths": {
+			"@/*": ["./src/*"]
+		},
+
+		// ── Environment & type sources ───────────────────────────────────────────
+		// vite/client: types for ?url/?raw imports, import.meta.env, import.meta.hot, etc.
+		"types": ["vite/client"],
+
+		// ── Language service plugins ──────────────────────────────────────────────
+		// ts-lit-plugin: adds type-checking inside html`...` and css`...` template literals.
+		// Catches undefined properties, wrong event names, missing custom elements, etc.
+		"plugins": [
+			{
+				"name": "ts-lit-plugin",
+				"strict": true
+			}
+		]
+	}
+}

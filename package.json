@@ -1,0 +1,51 @@
+{
+	"name": "@mise-en-scene/cadre",
+	"version": "0.1.0",
+	"description": "Cadre library for mise-en-scène",
+	"type": "module",
+	"main": "./dist/cadre.js",
+	"module": "./dist/cadre.js",
+	"types": "./dist/cadre.d.ts",
+	"exports": {
+		".": {
+			"import": "./dist/cadre.js",
+			"types": "./dist/cadre.d.ts"
+		}
+	},
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"prepublishOnly": "bun run build",
+		"build": "vite build",
+		"typecheck": "tsc --noEmit",
+		"lint": "biome lint --write .",
+		"lint:check": "biome lint .",
+		"format": "biome format --write .",
+		"format:check": "biome format .",
+		"check": "biome check --write .",
+		"check:check": "biome check .",
+		"check:ci": "biome ci .",
+		"storybook": "storybook dev -p 6006",
+		"build-storybook": "storybook build"
+	},
+	"peerDependencies": {
+		"lit": "^3.0.0"
+	},
+	"dependencies": {},
+	"devDependencies": {
+		"@biomejs/biome": "^2.4.15",
+		"@microsoft/api-extractor": "^7.58.7",
+		"@storybook/addon-docs": "^10.4.0",
+		"@storybook/web-components": "^10.4.0",
+		"@storybook/web-components-vite": "^10.4.0",
+		"bun-types": "^1.3.14",
+		"storybook": "^10.4.0",
+		"ts-lit-plugin": "^2.0.2",
+		"typescript": "^6.0.3",
+		"valibot": "^1.4.0",
+		"vite": "^8.0.13",
+		"vite-plugin-dts": "^5.0.1"
+	},
+	"packageManager": "bun@1.3.14"
+}
